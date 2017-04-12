@@ -26,7 +26,7 @@ Route::get('/set', function () {
 
 });
 
-Route::post('/343139142:AAGCpIOGVwFcbbJL56sLVSXUgz8zO3jPc34/webhook','TelegramController@run');
+Route::post('/343139142:AAGCpIOGVwFcbbJL56sLVSXUgz8zO3jPc34/webhook','TelegramBotController@run');
 
 Route::get('testdatabase',function (){
     return \App\Conversation::all();
