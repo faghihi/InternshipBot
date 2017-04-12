@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversation;
+use App\Data;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Pdfcontroller;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramBotController extends Controller
 {
@@ -10,19 +14,6 @@ class TelegramBotController extends Controller
     {
         $update = \Telegram::getWebhookUpdates();
         $message = $update->getMessage();
-//        $keyboard = [
-//            [
-//                ['text'=>'google','url'=>'http://google.com']
-//            ],
-//            [
-//                ['text'=>'google','url'=>'http://google.com']
-//            ]
-//        ];
-//
-//        $reply_markup = \Telegram::replyKeyboardMarkup([
-//            'inline_keyboard' => $keyboard,
-//            'one_time_keyboard'=>true
-//        ]);
         if ($message !== null && $message->has('text')) {
             $chat_id = $message->getChat()->getId();
             $check = 0;
