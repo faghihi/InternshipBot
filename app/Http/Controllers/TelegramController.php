@@ -46,13 +46,12 @@ class TelegramController extends Controller
                 $id=$message->getFrom()->getId();
                 $conversation=Conversation::where('chat_id',$id)->first();
                 if(is_null($conversation)){
-                    $text='no data available';
                     $con=new Conversation();
                     $con->chat_id=$id;
                     $con->state='0';
                     $con->save();
                     $text=
-                        'سلام به بات جاب یار خوش آمدید.';
+                        'سلام به کارآموزی وستاک  خوش آمدید.';
                     $check=1;
                     \Telegram::sendMessage(
                         [
@@ -63,7 +62,7 @@ class TelegramController extends Controller
 
                 }
                 else{
-                    $text='شما هم اکنون در میانه راه پر کردن رزومه می باشید با این دستور رزومه شما از ابتدا آغاز خواهد شد آیا موافقید ؟!';
+                    $text='آیا میخواهید فرآیند ثبت نام برای کارآموزی را مجدد شروع کنید ؟!';
                     $check=2;
 
                 }
@@ -77,7 +76,7 @@ class TelegramController extends Controller
                         $con->state='0';
                         $con->save();
                         $text=
-                            'سلام به بات جاب یار خوش آمدید.';
+                            'سلام به کارآموزی وستاک  خوش آمدید.';
                         $check=1;
                         $reply_markup =  \Telegram::replyKeyboardMarkup([
                             'hide_keyboard' => true
@@ -119,7 +118,7 @@ class TelegramController extends Controller
                         $con->state='0';
                         $con->save();
                         $text=
-                            'سلام به بات جاب یار خوش آمدید.';
+                            'سلام به کارآموزی وستاک  خوش آمدید.';
                         $check=1;
                         \Telegram::sendMessage(
                             [
@@ -705,11 +704,20 @@ class TelegramController extends Controller
             }
         }
             if($check==1){
+                $keyboard = [
+                    ['توضیح شرایط عمومی کارآموزی'],
+                ];
+
+                $reply_markup = \Telegram::replyKeyboardMarkup([
+                    'keyboard' => $keyboard,
+                    'resize_keyboard' => true,
+                    'one_time_keyboard' => true
+                ]);
                 \Telegram::sendMessage(
                     [
                         'chat_id'=>$chat_id,
-                        'text'=>'برای شروع از دستور /begin  استفاده نمایید.',
-//                    'reply_markup' => $reply_markup
+                        'text'=>'برای شروع از دستور /begin  استفاده نمایید و برای توضیخ شرایط کارآموزی روی دکمه توضیح شرایط کلیک فرمایید.',
+                        'reply_markup' => $reply_markup
                     ]);
             }
             if($check==2){
