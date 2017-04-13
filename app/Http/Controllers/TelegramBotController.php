@@ -48,9 +48,17 @@ class TelegramBotController extends Controller
                                 ]);
                             break;
                         case 'توضیح شرایط کارآموزی':
-                            $text="umumi \n umumi";
+                            $text="از منوی تهیه شده گزینه مورد نظر خود را انتخاب نمایید.";
+                            $conversation->state = 1;
+                            $conversation->save();
                             $keyboard = [
-                                ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                                [
+                                    'درباره ی شرکت','موقعیت های موجود برای کارآموزی'
+
+                                ],
+                                ['زمان های کارآموزی','شرایط ورودی کارآموزی'],
+                                ['شرایط پس از کارآموزی','وظایف کاری در حین کارآموزی '],
+                                ['مزایا']
                             ];
 
                             $reply_markup = \Telegram::replyKeyboardMarkup([
