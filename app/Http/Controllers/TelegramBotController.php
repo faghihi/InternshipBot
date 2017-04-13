@@ -16,18 +16,34 @@ class TelegramBotController extends Controller
         $message = $update->getMessage();
         if ($message !== null && $message->has('text')) {
             $chat_id = $message->getChat()->getId();
-            $check = 0;
-            $save = 1;
             $command = $message->getText();
-            $text=
-                'سلام به کارآموزی وستاک  خوش آمدید.';
-            $check=1;
-            \Telegram::sendMessage(
-                [
-                    'chat_id'=>$chat_id,
-                    'text'=>$text,
-//                    'reply_markup' => $reply_markup
-                ]);
+            $id=$message->getFrom()->getId();
+            $conversation=Conversation::where('chat_id',$id)->first();
+            if(is_null($conversation)){
+                $conversation=new Conversation();
+                $conversation->chat_id=$id;
+                $conversation->state='0';
+                $conversation->save();
+            }
+            switch ($conversation->state){
+                case 0:
+                    switch ($command){
+                        case '/start':
+                            $text=
+                                'سلام به بات جاب یار خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+                            $keyboard = [
+                                ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                            ];
+
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }
