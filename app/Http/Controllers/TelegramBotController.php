@@ -149,8 +149,7 @@ class TelegramBotController extends Controller
                             break;
 
                         case 'مزایا':
-                            $text='برخی از مزایای حضور در دوره ی کارآموزی وستاک بدین شرح میباشد:
-                            ';
+                            $text="برخی از مزایای حضور در دوره ی کارآموزی وستاک بدین شرح میباشد.\n";
                             $positions = \Config::get("conditions.goods");
                             foreach ($positions as $value) {
                                 $sampletext=$value."\n";
