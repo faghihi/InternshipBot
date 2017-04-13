@@ -40,6 +40,12 @@ class TelegramBotController extends Controller
                                 'resize_keyboard' => true,
                                 'one_time_keyboard' => true
                             ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
                             break;
                     }
                     break;
