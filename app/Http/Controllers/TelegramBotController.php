@@ -187,7 +187,7 @@ class TelegramBotController extends Controller
                         \Telegram::sendMessage(
                             [
                                 'chat_id' => $chat_id,
-                                'text'=>'',
+                                'text'=>'برای ادامه به منو مراجعه نمایید',
                                 'reply_markup' => $reply_markup
                             ]);
                     }
