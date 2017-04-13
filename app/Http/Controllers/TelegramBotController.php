@@ -49,6 +49,21 @@ class TelegramBotController extends Controller
                             break;
                         case 'توضیح شرایط کارآموزی':
                             $text="umumi \n umumi";
+                            $keyboard = [
+                                ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                            ];
+
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
                             break;
                     }
                     break;
