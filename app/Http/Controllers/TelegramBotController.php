@@ -148,7 +148,6 @@ class TelegramBotController extends Controller
                                     'text' => $text,
                                 ]);
                             break;
-
                         case 'مزایا':
                             $text="برخی از مزایای حضور در دوره ی کارآموزی وستاک بدین شرح میباشد.\n";
                             $positions = \Config::get("conditions.goods");
@@ -167,23 +166,6 @@ class TelegramBotController extends Controller
                             $conversation->state=0;
                             $conversation->save();
                             $check=1;
-                            $text=
-                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
-                            $keyboard = [
-                                ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
-                            ];
-
-                            $reply_markup = \Telegram::replyKeyboardMarkup([
-                                'keyboard' => $keyboard,
-                                'resize_keyboard' => true,
-                                'one_time_keyboard' => true
-                            ]);
-                            \Telegram::sendMessage(
-                                [
-                                    'chat_id' => $chat_id,
-                                    'text' => $text,
-                                    'reply_markup' => $reply_markup
-                                ]);
                             break;
                     }
                     if(!$check){
@@ -209,6 +191,27 @@ class TelegramBotController extends Controller
                                 'reply_markup' => $reply_markup
                             ]);
                     }
+                    else{
+                        $text=
+                            'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+                        $keyboard = [
+                            ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                        ];
+
+                        $reply_markup = \Telegram::replyKeyboardMarkup([
+                            'keyboard' => $keyboard,
+                            'resize_keyboard' => true,
+                            'one_time_keyboard' => true
+                        ]);
+                        \Telegram::sendMessage(
+                            [
+                                'chat_id' => $chat_id,
+                                'text' => $text,
+                                'reply_markup' => $reply_markup
+                            ]);
+                    }
+                    break;
+                case 2:
 
                     break;
             }
