@@ -98,6 +98,21 @@ class TelegramBotController extends Controller
                                 ]);
 
                             break;
+                        case 'موقعیت های موجود برای کارآموزی':
+                            $text="موقعیت های موجود به شرح زیر میباشند : ( الگو : موقعیت - نیازمندی های موقعیت ) 
+                            \n";
+                            $positions = \Config::get("conditions.opportunities");
+                            $keyboard = array();
+                            foreach ($positions as $key=>$value) {
+                                $sampletext=$key.' - '.$value."\n";
+                                $text.=$sampletext;
+                            }
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                ]);
+                            break;
                     }
                     $text="از منوی تهیه شده گزینه مورد نظر خود را انتخاب نمایید.";
                     $keyboard = [
