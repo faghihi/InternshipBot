@@ -76,6 +76,7 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 1:
+                    $check=0;
                     switch ($command){
                         case 'درباره ی شرکت':
                             $text="
@@ -162,29 +163,53 @@ class TelegramBotController extends Controller
                                     'text' => $text,
                                 ]);
                             break;
+                        case 'بازگشت':
+                            $conversation->state=0;
+                            $conversation->save();
+                            $check=1;
+                            $text=
+                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+                            $keyboard = [
+                                ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                            ];
+
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
+                            break;
                     }
-                    $text="از منوی تهیه شده گزینه مورد نظر خود را انتخاب نمایید.";
-                    $keyboard = [
-                        [
-                            'درباره ی شرکت','موقعیت های موجود برای کارآموزی'
+                    if(!$check){
+                        $keyboard = [
+                            [
+                                'درباره ی شرکت','موقعیت های موجود برای کارآموزی'
 
-                        ],
-                        ['زمان های کارآموزی','شرایط ورودی کارآموزی','مزایا'],
-                        ['شرایط پس از کارآموزی','وظایف کاری در حین کارآموزی '],
-                        ['بازگشت']
-                    ];
+                            ],
+                            ['زمان های کارآموزی','شرایط ورودی کارآموزی'],
+                            ['مزایا'],
+                            ['بازگشت']
+                        ];
 
-                    $reply_markup = \Telegram::replyKeyboardMarkup([
-                        'keyboard' => $keyboard,
-                        'resize_keyboard' => true,
-                        'one_time_keyboard' => true
-                    ]);
-                    \Telegram::sendMessage(
-                        [
-                            'chat_id' => $chat_id,
-                            'text' => $text,
-                            'reply_markup' => $reply_markup
+                        $reply_markup = \Telegram::replyKeyboardMarkup([
+                            'keyboard' => $keyboard,
+                            'resize_keyboard' => true,
+                            'one_time_keyboard' => true
                         ]);
+                        \Telegram::sendMessage(
+                            [
+                                'chat_id' => $chat_id,
+                                'text' => $text,
+                                'reply_markup' => $reply_markup
+                            ]);
+                    }
+
                     break;
             }
         }
