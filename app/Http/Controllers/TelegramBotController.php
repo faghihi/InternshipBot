@@ -102,7 +102,6 @@ class TelegramBotController extends Controller
                             $text="موقعیت های موجود به شرح زیر میباشند : ( الگو : موقعیت - نیازمندی های موقعیت ) 
                             \n";
                             $positions = \Config::get("conditions.opportunities");
-                            $keyboard = array();
                             foreach ($positions as $key=>$value) {
                                 $sampletext=$key.' - '.$value."\n";
                                 $text.=$sampletext;
@@ -142,6 +141,22 @@ class TelegramBotController extends Controller
 ۴. حضور در ساعات تعیین شده 
 ۵. پیشرفت قابل قبول در طول دوره 
                            ";
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                ]);
+                            break;
+
+                        case 'مزایا':
+                            $text='برخی از مزایای حضور در دوره ی کارآموزی وستاک بدین شرح میباشد:
+                            ';
+                            $positions = \Config::get("conditions.goods");
+                            foreach ($positions as $value) {
+                                $sampletext=$value."\n";
+                                $text.=$sampletext;
+                            }
+
                             \Telegram::sendMessage(
                                 [
                                     'chat_id' => $chat_id,
