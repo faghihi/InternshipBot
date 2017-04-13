@@ -30,7 +30,7 @@ class TelegramBotController extends Controller
                     switch ($command){
                         case '/start':
                             $text=
-                                'سلام به بات جاب یار خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
                             $keyboard = [
                                 ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
                             ];
@@ -46,6 +46,9 @@ class TelegramBotController extends Controller
                                     'text' => $text,
                                     'reply_markup' => $reply_markup
                                 ]);
+                            break;
+                        case 'توضیح شرایط کارآموزی':
+                            $text="umumi \n umumi";
                             break;
                     }
                     break;
