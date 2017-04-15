@@ -514,7 +514,10 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 6:
-                    $text=$update->getMessage()->getContact()->getPhoneNumber();
+                    if($update->getMessage()->has('contact'))
+                        $text=$update->getMessage()->getContact()->getPhoneNumber();
+                    else
+                        $text=$command;
                     $data = new Data();
                     $data->chat_id = $id;
                     $data->state = 25;
