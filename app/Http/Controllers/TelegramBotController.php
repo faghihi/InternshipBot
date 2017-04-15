@@ -399,7 +399,7 @@ class TelegramBotController extends Controller
                             foreach ($dummy as $key => $value) {
                                 $keyboard[][] = $key;
                             }
-                            $keyboard[][]='بازگشت';
+                            $keyboard[][]=['بازگشت'];
                             $reply_markup = \Telegram::replyKeyboardMarkup([
                                 'keyboard' => $keyboard,
                                 'resize_keyboard' => true,
