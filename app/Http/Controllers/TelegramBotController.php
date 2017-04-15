@@ -341,6 +341,7 @@ class TelegramBotController extends Controller
                             $text = 'لطفا جنسیت خود را انتخاب نمایید.';
                             $keyboard = [
                                 ['زن', 'مرد'],
+                                ['بازگشت']
                             ];
 
                             $reply_markup = \Telegram::replyKeyboardMarkup([
@@ -399,7 +400,6 @@ class TelegramBotController extends Controller
                             foreach ($dummy as $key => $value) {
                                 $keyboard[][] = $key;
                             }
-                            $keyboard[][]=['بازگشت'];
                             $reply_markup = \Telegram::replyKeyboardMarkup([
                                 'keyboard' => $keyboard,
                                 'resize_keyboard' => true,
