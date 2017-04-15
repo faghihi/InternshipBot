@@ -502,8 +502,6 @@ class TelegramBotController extends Controller
                                 ];
                                 $reply_markup = \Telegram::replyKeyboardMarkup([
                                     'keyboard' => $keyboard,
-                                    'resize_keyboard' => true,
-                                    'one_time_keyboard' => true
                                 ]);
                                 \Telegram::sendMessage(
                                     [
