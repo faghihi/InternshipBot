@@ -32,7 +32,7 @@ class TelegramBotController extends Controller
                             $text=
                                 'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
                             $keyboard = [
-                                ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                                ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
                             ];
 
                             $reply_markup = \Telegram::replyKeyboardMarkup([
@@ -83,7 +83,32 @@ class TelegramBotController extends Controller
                                     'chat_id' => $chat_id,
                                     'text' => $text,
                                 ]);
+                            break;
+                        case 'رزرو مصاحبه':
+                            $text='مراحل زیر را دنبال نمایید تا اطلاعات شما برای ما ارسال شود و در صورت تایید بتوانیم پس از نماس با شما زمان مصاحبه را تعیین نماییم.';
+                            $conversation->state=2;
+                            $conversation->save();
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                ]);
+                            $text='نام و نام خانوادگی خود را به فارسی وارد نمایید.';
+                            $keyboard = [
+                                ['بازگشت']
+                            ];
 
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text'=>$text,
+                                    'reply_markup' => $reply_markup
+                                ]);
                             break;
                     }
                     break;
@@ -207,7 +232,7 @@ class TelegramBotController extends Controller
                         $text=
                             'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
                         $keyboard = [
-                            ['توضیح شرایط کارآموزی','وارد کردن اطلاعات برای رزرو مصاحبه','راهنما'],
+                            ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
                         ];
 
                         $reply_markup = \Telegram::replyKeyboardMarkup([
@@ -224,7 +249,55 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 2:
+                    switch ($command){
+                        case 'بازگشت':
+                            $conversation->state=0;
+                            $conversation->save();
+                            $datas=Data::where('chat_id',$id)->get();
+                            foreach ($datas as $data){
+                                $data=Data::find($data->id);
+                                $data->delete();
+                            }
+                            $text=
+                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+                            $keyboard = [
+                                ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
+                            ];
 
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
+                            break;
+                        default :
+                            $data = new Data();
+                            $data->chat_id = $id;
+                            $data->state = 1;
+                            $data->data = $command;
+                            $data->save();
+                            $text = 'لطفا میزان تحصیلات خود را انتخاب نمایید.';
+                            $keyboard = [
+                                ['زیر دیپلم', 'دیپلم', 'کارشناسی'], ['کارشناسی ارشد', 'دکتری', 'فوق دکتری']
+                            ];
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
+                    }
                     break;
             }
         }
