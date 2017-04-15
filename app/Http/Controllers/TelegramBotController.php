@@ -393,7 +393,7 @@ class TelegramBotController extends Controller
                             $data->save();
                             $conversation->state=5;
                             $conversation->save();
-                            $text = 'لطفا محل زندگی خود را وارد نمایید.';
+                            $text = 'لطفا محل سکونت خود را وارد نمایید.';
                             $dummy = \Config::get('majors.cities');
                             $keyboard = array();
                             foreach ($dummy as $key => $value) {
