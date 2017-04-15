@@ -28,6 +28,7 @@ class TelegramBotController extends Controller
             switch ($conversation->state){
                 case 0:
                     switch ($command){
+                        case 'منوی اصلی':
                         case '/start':
                             $text=
                                 'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
@@ -524,11 +525,22 @@ class TelegramBotController extends Controller
                     $data1 =$data1;
                     $data->data = $data1;
                     $data->save();
+                    $conversation->state=0;
+                    $conversation->save();
                     $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم در اسرع وقت با شما تماس گرفته خواهد شد.';
+                    $keyboard=[
+                        ['منوی اصلی']
+                    ];
+                    $reply_markup = \Telegram::replyKeyboardMarkup([
+                        'keyboard' => $keyboard,
+                        'resize_keyboard' => true,
+                        'one_time_keyboard' => true
+                    ]);
                     \Telegram::sendMessage(
                             [
                                 'chat_id' => $chat_id,
                                 'text' => $text,
+                                'reply_markup'=>$reply_markup
                             ]);
                     break;
             }
