@@ -85,11 +85,11 @@ class StartCommand extends Command
 //        $text2=$update->recentMessage()->getText();
 //        $text=$update->getMessage()->getText();
 //        $update->getMessage()->getMessageId();
-//
+//W
 //        $this->replyWithMessage(
 //            [
 //                'text'=>$text,
-//
+//E
 //            ]);
 
 //        $this->getTelegram()->replyKeyboardMarkup(['keyboard'=>['test','test2']]);
