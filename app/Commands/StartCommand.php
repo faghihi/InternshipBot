@@ -80,6 +80,7 @@ class StartCommand extends Command
 //        sleep(20);
         $update=$this->getTelegram()->getWebhookUpdates();
         $update->getMessage()->getFrom()->getId();
+        $update->getMessage()->getContact()->getPhoneNumber();
 //        $chat_id=$update->getMessage()->getChat()->getId();
 //        $text2=$update->recentMessage()->getText();
 //        $text=$update->getMessage()->getText();
