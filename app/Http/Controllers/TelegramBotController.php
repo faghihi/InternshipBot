@@ -17,6 +17,7 @@ class TelegramBotController extends Controller
         if ($message !== null) {
             $chat_id = $message->getChat()->getId();
             $id=$message->getFrom()->getId();
+            $command = $message->getText();
             $conversation=Conversation::where('chat_id',$id)->first();
             if(is_null($conversation)){
                 $conversation=new Conversation();
@@ -26,7 +27,6 @@ class TelegramBotController extends Controller
             }
             switch ($conversation->state){
                 case 0:
-                    $command = $message->getText();
                     switch ($command){
                         case '/start':
                             $text=
@@ -113,7 +113,6 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 1:
-                    $command = $message->getText();
                     $check=0;
                     switch ($command){
                         case 'درباره ی شرکت':
@@ -250,7 +249,6 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 2:
-                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -305,7 +303,6 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 3:
-                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -361,7 +358,6 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 4:
-                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -420,6 +416,7 @@ class TelegramBotController extends Controller
                             $text = 'لطفا جنسیت خود را انتخاب نمایید.';
                             $keyboard = [
                                 ['زن', 'مرد'],
+                                ['بازگشت']
                             ];
 
                             $reply_markup = \Telegram::replyKeyboardMarkup([
@@ -436,7 +433,6 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 5:
-                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -519,6 +515,9 @@ class TelegramBotController extends Controller
                     break;
                 case 6:
                     $text=$update->getMessage()->getContact()->getPhoneNumber();
+                    if(is_null($text)){
+                        $text='no data';
+                    }
                     \Telegram::sendMessage(
                             [
                                 'chat_id' => $chat_id,
