@@ -471,7 +471,6 @@ class TelegramBotController extends Controller
                                 foreach ($dummy as $key => $value) {
                                     $keyboard[][] = $key;
                                 }
-                                $keyboard[][]=['بازگشت'];
                                 $reply_markup = \Telegram::replyKeyboardMarkup([
                                     'keyboard' => $keyboard,
                                     'resize_keyboard' => true,
@@ -500,7 +499,8 @@ class TelegramBotController extends Controller
                                     ],
                                 ];
                                 $reply_markup = \Telegram::replyKeyboardMarkup([
-                                    'inline_keyboard' => $keyboard,
+                                    'keyboard' => $keyboard,
+                                    'resize_keyboard' => true,
                                     'one_time_keyboard' => true
                                 ]);
                                 \Telegram::sendMessage(
