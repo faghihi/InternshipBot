@@ -336,8 +336,81 @@ class TelegramBotController extends Controller
                             $data->state = 22;
                             $data->data = $command;
                             $data->save();
-                            $conversation->state=3;
+                            $conversation->state=4;
                             $conversation->save();
+                            $text = 'لطفا جنسیت خود را انتخاب نمایید.';
+                            $keyboard = [
+                                ['زن', 'مرد'],
+                            ];
+
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
+                    }
+                    break;
+                case 4:
+                    switch ($command){
+                        case 'بازگشت':
+                            $conversation->state=0;
+                            $conversation->save();
+                            $datas=Data::where('chat_id',$id)->get();
+                            foreach ($datas as $data){
+                                $data=Data::find($data->id);
+                                $data->delete();
+                            }
+                            $text=
+                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+                            $keyboard = [
+                                ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
+                            ];
+
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
+                            break;
+                        case 'مرد':
+                        case 'زن':
+                            $data = new Data();
+                            $data->chat_id = $id;
+                            $data->state = 23;
+                            $data->data = $command;
+                            $data->save();
+                            $conversation->state=5;
+                            $conversation->save();
+                            $text = 'لطفا جنسیت خود را انتخاب نمایید.';
+                            $keyboard = [
+                                ['زن', 'مرد'],
+                            ];
+
+                            $reply_markup = \Telegram::replyKeyboardMarkup([
+                                'keyboard' => $keyboard,
+                                'resize_keyboard' => true,
+                                'one_time_keyboard' => true
+                            ]);
+                            \Telegram::sendMessage(
+                                [
+                                    'chat_id' => $chat_id,
+                                    'text' => $text,
+                                    'reply_markup' => $reply_markup
+                                ]);
+                            break;
+                        default:
                             $text = 'لطفا جنسیت خود را انتخاب نمایید.';
                             $keyboard = [
                                 ['زن', 'مرد'],
