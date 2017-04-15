@@ -495,13 +495,11 @@ class TelegramBotController extends Controller
                                 $text='لطفا شماره تماس خود را برای ما ارسال نمایید.';
                                 $keyboard = [
                                     [
-                                        ['text' => 'ارسال اطلاعات تماس', 'request_contact'=>1]
+                                        ['text' => 'ارسال اطلاعات تماس', 'request_contact'=>true]
                                     ],
                                 ];
                                 $reply_markup = \Telegram::replyKeyboardMarkup([
                                     'keyboard' => $keyboard,
-                                    'resize_keyboard' => true,
-                                    'one_time_keyboard' => true
                                 ]);
                                 \Telegram::sendMessage(
                                     [
