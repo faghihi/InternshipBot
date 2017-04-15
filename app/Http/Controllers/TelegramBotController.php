@@ -14,7 +14,7 @@ class TelegramBotController extends Controller
     {
         $update = \Telegram::getWebhookUpdates();
         $message = $update->getMessage();
-        if ($message !== null && $message->has('text')) {
+        if ($message !== null) {
             $chat_id = $message->getChat()->getId();
             $id=$message->getFrom()->getId();
             $conversation=Conversation::where('chat_id',$id)->first();
