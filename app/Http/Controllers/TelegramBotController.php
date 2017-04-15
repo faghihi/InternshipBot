@@ -16,7 +16,6 @@ class TelegramBotController extends Controller
         $message = $update->getMessage();
         if ($message !== null && $message->has('text')) {
             $chat_id = $message->getChat()->getId();
-            $command = $message->getText();
             $id=$message->getFrom()->getId();
             $conversation=Conversation::where('chat_id',$id)->first();
             if(is_null($conversation)){
@@ -27,6 +26,7 @@ class TelegramBotController extends Controller
             }
             switch ($conversation->state){
                 case 0:
+                    $command = $message->getText();
                     switch ($command){
                         case '/start':
                             $text=
@@ -113,6 +113,7 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 1:
+                    $command = $message->getText();
                     $check=0;
                     switch ($command){
                         case 'درباره ی شرکت':
@@ -249,6 +250,7 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 2:
+                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -303,6 +305,7 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 3:
+                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -358,6 +361,7 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 4:
+                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -432,6 +436,7 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 5:
+                    $command = $message->getText();
                     switch ($command){
                         case 'بازگشت':
                             $conversation->state=0;
@@ -513,44 +518,12 @@ class TelegramBotController extends Controller
                     }
                     break;
                 case 6:
-                    $checks=0;
-                    switch ($command){
-                        case 'بازگشت':
-                            $conversation->state=0;
-                            $conversation->save();
-                            $datas=Data::where('chat_id',$id)->get();
-                            foreach ($datas as $data){
-                                $data=Data::find($data->id);
-                                $data->delete();
-                            }
-                            $text=
-                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
-                            $keyboard = [
-                                ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
-                            ];
-
-                            $reply_markup = \Telegram::replyKeyboardMarkup([
-                                'keyboard' => $keyboard,
-                                'resize_keyboard' => true,
-                                'one_time_keyboard' => true
-                            ]);
-                            \Telegram::sendMessage(
-                                [
-                                    'chat_id' => $chat_id,
-                                    'text' => $text,
-                                    'reply_markup' => $reply_markup
-                                ]);
-                            $checks=1;
-                            break;
-                    }
-                    if(!$checks){
                         $text ='salam';
                         \Telegram::sendMessage(
                             [
                                 'chat_id' => $chat_id,
                                 'text' => $text,
                             ]);
-                    }
                     break;
             }
         }
