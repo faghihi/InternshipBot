@@ -393,11 +393,12 @@ class TelegramBotController extends Controller
                             $data->save();
                             $conversation->state=5;
                             $conversation->save();
-                            $text = 'لطفا جنسیت خود را انتخاب نمایید.';
-                            $keyboard = [
-                                ['زن', 'مرد'],
-                            ];
-
+                            $text = 'لطفا محل زندگی خود را وارد نمایید.';
+                            $dummy = \Config::get('majors.cities');
+                            $keyboard = array();
+                            foreach ($dummy as $key => $value) {
+                                $keyboard[][] = $key;
+                            }
                             $reply_markup = \Telegram::replyKeyboardMarkup([
                                 'keyboard' => $keyboard,
                                 'resize_keyboard' => true,
