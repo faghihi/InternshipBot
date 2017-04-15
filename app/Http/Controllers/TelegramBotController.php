@@ -515,15 +515,16 @@ class TelegramBotController extends Controller
                     break;
                 case 6:
                     if($update->getMessage()->has('contact'))
-                        $text=$update->getMessage()->getContact()->getPhoneNumber();
+                        $data1=$update->getMessage()->getContact()->getPhoneNumber();
                     else
-                        $text=$command;
+                        $data1=$command;
                     $data = new Data();
                     $data->chat_id = $id;
                     $data->state = 25;
-                    $data1 =$text;
+                    $data1 =$data1;
                     $data->data = $data1;
                     $data->save();
+                    $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم در اسرع وقت با شما تماس گرفته خواهد شد.';
                     \Telegram::sendMessage(
                             [
                                 'chat_id' => $chat_id,
