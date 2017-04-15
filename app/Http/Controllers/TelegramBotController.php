@@ -496,12 +496,12 @@ class TelegramBotController extends Controller
                                 $keyboard = [
                                     [
                                         ['text' => 'ارسال اطلاعات تماس', 'request_contact'=>true],
-                                        ['بازگشت']
-
                                     ],
                                 ];
                                 $reply_markup = \Telegram::replyKeyboardMarkup([
                                     'keyboard' => $keyboard,
+                                    'resize_keyboard' => true,
+                                    'one_time_keyboard' => true
                                 ]);
                                 \Telegram::sendMessage(
                                     [
