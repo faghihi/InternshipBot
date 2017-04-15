@@ -544,7 +544,6 @@ class TelegramBotController extends Controller
                             break;
                     }
                     if(!$checks){
-                        \Telegram::
                         $text = $update->getMessage()->getContact()->getPhoneNumber();
                         \Telegram::sendMessage(
                             [
