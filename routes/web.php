@@ -34,6 +34,11 @@ Route::get('testdatabase',function (){
 Route::get('testdatabase1',function (){
     return \App\Data::all();
 });
+
+Route::get('results',function (){
+    return view('resultpage')->with('data',\App\InternShipData::all());
+});
+
 Route::get('test',function (){
     $dummy=\Config::get('majors.majors');
     $keyboard=[];
