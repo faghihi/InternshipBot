@@ -36,7 +36,11 @@ Route::get('testdatabase1',function (){
 });
 
 Route::get('results',function (){
-    return view('resultpage')->with('data',\App\InternShipData::all());
+    $data=\App\InternShipData::all();
+//    $data=[
+//        ['name'=>'salam','grade'=>'asdasd','gender'=>'adsas','city'=>'asdas','phone'=>'asdasdasd'],
+//    ];
+    return view('resultpage')->with('data',$data);
 });
 
 Route::get('test',function (){
