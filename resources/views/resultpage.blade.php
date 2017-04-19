@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <table class="table">
+    <table class="table table-responsive ">
         <tr>
             <th>
                 name
