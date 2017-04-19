@@ -6,17 +6,11 @@ use App\Conversation;
 use App\Data;
 use App\InternShipData;
 use Illuminate\Http\Request;
-use App\Http\Controllers\EmailController;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramBotController extends Controller
 {
     protected $EmailController;
-
-    public function _construct(EmailController $item)
-    {
-        $this->EmailController=$item;
-    }
 
 
     public function run()
@@ -559,8 +553,8 @@ class TelegramBotController extends Controller
                                 break;
                         }
                         $data->delete();
-                        $internship->save();
                     }
+                    $internship->save();
                     $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم در اسرع وقت با شما تماس گرفته خواهد شد.';
                     $keyboard=[
                         ['منوی اصلی']
