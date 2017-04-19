@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Conversation;
 use App\Data;
+use App\InternShipData;
 use Illuminate\Http\Request;
 use App\Http\Controllers\EmailController;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -535,19 +536,30 @@ class TelegramBotController extends Controller
                     $data->save();
                     $conversation->state=0;
                     $conversation->save();
-                    $info=array();
-                    $infos=Data::where('chatid',$id)->get();
-                    foreach ($infos as $i)
-                    {
-                        $info[]=$i->data;
-                    }
-                    $result=$this->EmailController->send_email($info,'information','new internship info','h.faghihi15@gmail.com');
-                    if($result){
-                        $datas=Data::where('chat_id',$id)->get();
-                        foreach ($datas as $data){
-                            $data=Data::find($data->id);
-                            $data->delete();
+                    $datas=Data::where('chat_id',$id)->get();
+                    $internship=new InternShipData();
+                    $internship->chat_id=$id;
+                    foreach ($datas as $data){
+                        $data=Data::find($data->id);
+                        switch ($data->state){
+                            case 21:
+                                $internship->name=$data->data;
+                                break;
+                            case 22:
+                                $internship->grade=$data->data;
+                                break;
+                            case 23:
+                                $internship->gender=$data->data;
+                                break;
+                            case 24:
+                                $internship->city=$data->data;
+                                break;
+                            case 25:
+                                $internship->phone=$data->data;
+                                break;
                         }
+                        $data->delete();
+                        $internship->save();
                     }
                     $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم در اسرع وقت با شما تماس گرفته خواهد شد.';
                     $keyboard=[
