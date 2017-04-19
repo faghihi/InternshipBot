@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Conversation;
 use App\Data;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Pdfcontroller;
+use App\Http\Controllers\EmailController;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramBotController extends Controller
 {
+    protected $EmailController;
+
+    public function _construct(EmailController $item)
+    {
+        $this->EmailController=$item;
+    }
+
+
     public function run()
     {
         $update = \Telegram::getWebhookUpdates();
@@ -489,12 +497,12 @@ class TelegramBotController extends Controller
                                 $data = new Data();
                                 $data->chat_id = $id;
                                 $data->state = 24;
-                                $data1 = \Config::get('majors.cities')[$command];
+                                $data1 = $command;
                                 $data->data = $data1;
                                 $data->save();
                                 $conversation->state = 6;
                                 $conversation->save();
-                                $text='لطفا شماره تماس خود را برای ما ارسال نمایید.';
+                                $text='لطفا شماره تماس خود را برای ما ارسال نمایید.با استفاده از دکمه مشخص شده در کیبورد شماره تلگرام خود را به اشتراک بگذارید.';
                                 $keyboard = [
                                     [
                                         ['text' => 'ارسال اطلاعات تماس', 'request_contact'=>true],
@@ -527,6 +535,20 @@ class TelegramBotController extends Controller
                     $data->save();
                     $conversation->state=0;
                     $conversation->save();
+                    $info=array();
+                    $infos=Data::where('chatid',$id)->get();
+                    foreach ($infos as $i)
+                    {
+                        $info[]=$i->data;
+                    }
+                    $result=$this->EmailController->send_email($info,'information','new internship info','h.faghihi15@gmail.com');
+                    if($result){
+                        $datas=Data::where('chat_id',$id)->get();
+                        foreach ($datas as $data){
+                            $data=Data::find($data->id);
+                            $data->delete();
+                        }
+                    }
                     $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم در اسرع وقت با شما تماس گرفته خواهد شد.';
                     $keyboard=[
                         ['منوی اصلی']
