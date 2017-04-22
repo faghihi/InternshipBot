@@ -497,6 +497,175 @@ class TelegramBotController extends Controller
                                 $data->save();
                                 $conversation->state = 6;
                                 $conversation->save();
+                                $text="برای کدام یک از موقعیت های موجود در منو ی تهیه شده علاقه مند به حضور میباشید؟";
+                                $dummy = \Config::get('conditions.opportunities');
+                                $keyboard = array();
+                                foreach ($dummy as $key => $value) {
+                                    $keyboard[][] = $key;
+                                }
+                                $reply_markup = \Telegram::replyKeyboardMarkup([
+                                    'keyboard' => $keyboard,
+                                    'resize_keyboard' => true,
+                                    'one_time_keyboard' => true
+                                ]);
+                                \Telegram::sendMessage(
+                                    [
+                                        'chat_id' => $chat_id,
+                                        'text' => $text,
+                                        'reply_markup' => $reply_markup
+                                    ]);
+                            }
+                    }
+                    break;
+                case 6:
+                    switch ($command){
+//                        case 'بازگشت':
+//                            $conversation->state=0;
+//                            $conversation->save();
+//                            $datas=Data::where('chat_id',$id)->get();
+//                            foreach ($datas as $data){
+//                                $data=Data::find($data->id);
+//                                $data->delete();
+//                            }
+//                            $text=
+//                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+//                            $keyboard = [
+//                                ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
+//                            ];
+//
+//                            $reply_markup = \Telegram::replyKeyboardMarkup([
+//                                'keyboard' => $keyboard,
+//                                'resize_keyboard' => true,
+//                                'one_time_keyboard' => true
+//                            ]);
+//                            \Telegram::sendMessage(
+//                                [
+//                                    'chat_id' => $chat_id,
+//                                    'text' => $text,
+//                                    'reply_markup' => $reply_markup
+//                                ]);
+//                            break;
+                        default:
+                            $array = array();
+                            foreach (\Config::get('conditions.opportunities') as $key => $value) {
+                                $array[] = $key;
+                            }
+                            if (!in_array($command, $array)){
+                                $text="برای کدام یک از موقعیت های موجود در منو ی تهیه شده علاقه مند به حضور میباشید؟";
+                                $dummy = \Config::get('conditions.opportunities');
+                                $keyboard = array();
+                                foreach ($dummy as $key => $value) {
+                                    $keyboard[][] = $key;
+                                }
+                                $reply_markup = \Telegram::replyKeyboardMarkup([
+                                    'keyboard' => $keyboard,
+                                    'resize_keyboard' => true,
+                                    'one_time_keyboard' => true
+                                ]);
+                                \Telegram::sendMessage(
+                                    [
+                                        'chat_id' => $chat_id,
+                                        'text' => $text,
+                                        'reply_markup' => $reply_markup
+                                    ]);
+                            }
+                            else{
+                                $data = new Data();
+                                $data->chat_id = $id;
+                                $data->state = 25;
+                                $data1 = $command;
+                                $data->data = $data1;
+                                $data->save();
+                                $conversation->state = 7;
+                                $conversation->save();
+                                $text='زمان مصاحبه خود را مشخص نمایید.';
+                                $dummy = \Config::get('conditions.available_time');
+                                $count=0;
+                                $keyboard = array();
+                                foreach ($dummy as $key => $value) {
+                                    foreach ($value as $v)
+                                        $keyboard[$count][] = $key.' '.$v;
+                                    $count++;
+                                }
+                                $reply_markup = \Telegram::replyKeyboardMarkup([
+                                    'keyboard' => $keyboard,
+                                    'resize_keyboard' => true,
+                                    'one_time_keyboard' => true
+                                ]);
+                                \Telegram::sendMessage(
+                                    [
+                                        'chat_id' => $chat_id,
+                                        'text' => $text,
+                                        'reply_markup' => $reply_markup
+                                    ]);
+                            }
+                    }
+                    break;
+                case 7:
+                    switch ($command){
+//                        case 'بازگشت':
+//                            $conversation->state=0;
+//                            $conversation->save();
+//                            $datas=Data::where('chat_id',$id)->get();
+//                            foreach ($datas as $data){
+//                                $data=Data::find($data->id);
+//                                $data->delete();
+//                            }
+//                            $text=
+//                                'سلام به بات کارآموزی وستاک خوش آمدید.لطفا از منوی تهیه شده روی گزینه مورد نظر خود اشاره نمایید.';
+//                            $keyboard = [
+//                                ['توضیح شرایط کارآموزی','رزرو مصاحبه','راهنما'],
+//                            ];
+//
+//                            $reply_markup = \Telegram::replyKeyboardMarkup([
+//                                'keyboard' => $keyboard,
+//                                'resize_keyboard' => true,
+//                                'one_time_keyboard' => true
+//                            ]);
+//                            \Telegram::sendMessage(
+//                                [
+//                                    'chat_id' => $chat_id,
+//                                    'text' => $text,
+//                                    'reply_markup' => $reply_markup
+//                                ]);
+//                            break;
+                        default:
+                            $array = array();
+                            foreach (\Config::get('conditions.available_time') as $key => $value) {
+                                foreach ($value as $v)
+                                    $array[]=$key.' '.$v;
+                            }
+                            if (!in_array($command, $array)){
+                                $text='زمان مصاحبه خود را مشخص نمایید.';
+                                $dummy = \Config::get('conditions.available_time');
+                                $count=0;
+                                $keyboard = array();
+                                foreach ($dummy as $key => $value) {
+                                    foreach ($value as $v)
+                                        $keyboard[$count][] = $key.' '.$v;
+                                    $count++;
+                                }
+                                $reply_markup = \Telegram::replyKeyboardMarkup([
+                                    'keyboard' => $keyboard,
+                                    'resize_keyboard' => true,
+                                    'one_time_keyboard' => true
+                                ]);
+                                \Telegram::sendMessage(
+                                    [
+                                        'chat_id' => $chat_id,
+                                        'text' => $text,
+                                        'reply_markup' => $reply_markup
+                                    ]);
+                            }
+                            else{
+                                $data = new Data();
+                                $data->chat_id = $id;
+                                $data->state = 26;
+                                $data1 = $command;
+                                $data->data = $data1;
+                                $data->save();
+                                $conversation->state = 8;
+                                $conversation->save();
                                 $text='لطفا شماره تماس خود را برای ما ارسال نمایید.با استفاده از دکمه مشخص شده در کیبورد شماره تلگرام خود را به اشتراک بگذارید.';
                                 $keyboard = [
                                     [
@@ -517,14 +686,14 @@ class TelegramBotController extends Controller
                             }
                     }
                     break;
-                case 6:
+                case 8:
                     if($update->getMessage()->has('contact'))
                         $data1=$update->getMessage()->getContact()->getPhoneNumber();
                     else
                         $data1=$command;
                     $data = new Data();
                     $data->chat_id = $id;
-                    $data->state = 25;
+                    $data->state = 27;
                     $data1 =$data1;
                     $data->data = $data1;
                     $data->save();
@@ -549,6 +718,12 @@ class TelegramBotController extends Controller
                                 $internship->city=$data->data;
                                 break;
                             case 25:
+                                $internship->major=$data->data;
+                                break;
+                            case 26:
+                                $internship->time=$data->data;
+                                break;
+                            case 27:
                                 $internship->phone=$data->data;
                                 break;
                         }

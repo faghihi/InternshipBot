@@ -56,4 +56,15 @@ Route::get('test2',function (){
     $data1='111';
     return \Config::get("majors.$data1");
 });
+Route::get('testtest',function (){
+    $dummy = \Config::get('conditions.available_time');
+    $count=0;
+    $keyboard = array();
+    foreach ($dummy as $key => $value) {
+        foreach ($value as $v)
+            $keyboard[$count][] = $key.' '.$v;
+        $count++;
+    }
+    return $keyboard;
+});
 
