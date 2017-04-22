@@ -24,6 +24,12 @@
             <th>
                 phone
             </th>
+            <th>
+                major
+            </th>
+            <th>
+               time
+            </th>
         </tr>
         @foreach($data as $d)
             <tr>
@@ -41,6 +47,12 @@
                 </td>
                 <td>
                     {{$d['phone']}}
+                </td>
+                <td>
+                    {{$d['major']}}
+                </td>
+                <td>
+                    {{$d['time']}}
                 </td>
             </tr>
         @endforeach
