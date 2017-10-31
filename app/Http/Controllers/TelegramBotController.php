@@ -23,6 +23,7 @@ class TelegramBotController extends Controller
 
     public function run()
     {
+        \Log::info('this is a Touch');
         $update = \Telegram::getWebhookUpdates();
         $message = $update->getMessage();
         if ($message !== null) {
