@@ -13,6 +13,14 @@ class TelegramBotController extends Controller
     protected $EmailController;
 
 
+    public function set()
+    {
+            $res = \Telegram::setWebhook([
+                'url' => 'https://intenshipbot.vestaak.com/343139142:AAGCpIOGVwFcbbJL56sLVSXUgz8zO3jPc34/webhook'
+            ]);
+            dd($res);
+    }
+
     public function run()
     {
         $update = \Telegram::getWebhookUpdates();
@@ -156,9 +164,9 @@ class TelegramBotController extends Controller
                             break;
                         case 'زمان های کارآموزی':
                             $text="
-                            زمان های کارآموزی در فصل بهار روز های شنبه تا ساعت ۴ ، و روز های 4 شنبه و 5 شنبه تا ساعت 6 میباشد و در فصل تابستان هر روز هفته(به جز جمعه) تا ساعت 4 میباشد کل زمان کارآموزی ۳ ماه است که از اولین روز کاری محاسبه خواهد شد.
+                            زمان های کارآموزی  روز های شنبه-دوشنبه  از ساعت ۱۲ الی ۱۸ ، و روز های 4 شنبه و 5 شنبه از ساعت ۹ الی ۱۸ میباشد،کل زمان کارآموزی ۴ ماه است که از اولین روز کاری محاسبه خواهد شد.
                             \n
-کارآموز در فصل بهار 15 ساعت در هفته و در فصل تابستان 30 ساعت در هفته باید در شرکت حضور داشته باشد.
+کارآموز ۱۵ الی ۲۰ ساعت  در هفته باید در شرکت حضور داشته باشد.
                             ";
                             \Telegram::sendMessage(
                                 [
@@ -730,7 +738,7 @@ class TelegramBotController extends Controller
                         $data->delete();
                     }
                     $internship->save();
-                    $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم در اسرع وقت با شما تماس گرفته خواهد شد.';
+                    $text='از وقتی که برای پر کردن اطلاعات خود گذاشتید متشکریم.';
                     $keyboard=[
                         ['منوی اصلی']
                     ];

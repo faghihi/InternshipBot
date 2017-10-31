@@ -18,13 +18,7 @@ Route::get('/', function () {
 Route::get('/testbot','telegramtestcontroller@index');
 Route::get('/testbot1','telegramtestcontroller@sendtext');
 
-Route::get('/set', function () {
-    $res = Telegram::setWebhook([
-        'url' => 'https://threedman.herokuapp.com/343139142:AAGCpIOGVwFcbbJL56sLVSXUgz8zO3jPc34/webhook'
-    ]);
-    dd($res);
-
-});
+Route::get('/set', 'TelegramBotController@set');
 
 Route::post('/343139142:AAGCpIOGVwFcbbJL56sLVSXUgz8zO3jPc34/webhook','TelegramBotController@run');
 

@@ -14,8 +14,8 @@ class AddColumnsToInternshipdata extends Migration
     public function up()
     {
         Schema::table('internshipdata', function($table) {
-            $table->text('major')->default('not set');
-            $table->text('time')->default('not set');
+            $table->longtext('major')->nullable();
+            $table->longtext('time')->nullable();
 
         });
     }
