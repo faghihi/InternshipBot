@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/testbot','telegramtestcontroller@index');
+Route::get('/send_message','telegramtestcontroller@index');
 Route::get('/testbot1','telegramtestcontroller@sendtext');
 
 Route::get('/set', 'TelegramBotController@set');
