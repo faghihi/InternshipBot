@@ -98,7 +98,7 @@ class TelegramBotController extends Controller
                                 ]);
                             break;
                         case 'رزرو مصاحبه':
-                            $text='مراحل زیر را دنبال نمایید تا اطلاعات شما برای ما ارسال شود و در صورت تایید بتوانیم پس از نماس با شما زمان مصاحبه را تعیین نماییم.';
+                            $text='مراحل زیر را دنبال نمایید تا اطلاعات شما برای ما ارسال شود ..';
                             $conversation->state=2;
                             $conversation->save();
                             \Telegram::sendMessage(
